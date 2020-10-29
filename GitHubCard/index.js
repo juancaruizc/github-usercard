@@ -27,6 +27,7 @@
     Using that array, iterate over it, requesting data for each user, creating a new card for each
     user, and adding that card to the DOM.
 */
+import axios from 'axios';
 
 const followersArray = [];
 
