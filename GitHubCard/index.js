@@ -29,8 +29,71 @@
 */
 import axios from 'axios';
 
-const followersArray = [];
+const cards = document.querySelector('.cards');
 
+function cardMaker(card) {
+  const cardDiv = document.createElement('div');
+  const userImg = document.createElement('img');
+  const cardInfoDiv = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const userLocation = document.createElement('p');
+  const profile = document.createElement('p');
+  const profileLink = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');
+
+  cardDiv.classList.add('card');
+  cardInfoDiv.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
+
+  userImg.src = card.avatar_url;
+  name.textContent = card.name;
+  userName.textContent = card.login;
+  userLocation.textContent = card.location;
+  profile.textContent = 'Profile: ';
+  profileLink.textContent = card.html_url;
+  profileLink.href = card.html_url;
+  followers.textContent = 'Followers: ' + card.followers;
+  following.textContent = 'Following: ' + card.following;
+  bio.textContent = 'Bio: ' + card.bio;
+
+  cardDiv.appendChild(userImg);
+  cardDiv.appendChild(cardInfoDiv);
+  cardInfoDiv.appendChild(name);
+  cardInfoDiv.appendChild(userName);
+  cardInfoDiv.appendChild(userLocation);
+  cardInfoDiv.appendChild(profile);
+  profile.appendChild(profileLink);
+  cardInfoDiv.appendChild(followers);
+  cardInfoDiv.appendChild(following);
+  cardInfoDiv.appendChild(bio);
+
+  return cardDiv;
+}
+
+const followersArray = [
+  'tetondan',
+  'dustinmyers',
+  'justsml',
+  'luishrd',
+  'bigknell',
+  'juancaruizc',
+];
+
+followersArray.forEach((user) => {
+  axios
+    .get(`https://api.github.com/users/${user}`)
+    .then((res) => {
+      console.log(res.data);
+      cards.append(cardMaker(res.data));
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
     Using DOM methods and properties, create and return the following markup:
